@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>IChing &#8250; IChing</title>
+	<link rel="stylesheet" href="wp-admin/css/install.css?ver=20100228" type="text/css" />
+</head>
+<body>
+	<div id="Layer1" style="position:fixed; width:100%; height:100%; z-index:-1">
+        <img src="background.jpg" height="100%" width="100%" />
+	</div>
+	<link rel="stylesheet" href="Iching.css">
+	<div class="container">
+		<div id = 'tossintro' class = 'toss-intro'>
+			<h2 style="text-align: center">IChing</h2>
+			<p style="text-align: justify; text-justify:inter-ideograph;">
+				I Ching is an ancient Chinese book used for divination and foretelling the future. The book uses a system of symbolic forms to describe how things change in the world, expressing the philosophy of classical Chinese culture. If there is a question in your heart and mind, casting the coins can be a simple and effective way of divination. With your mind focused on the question, you can gather three coins of the same size into your hands, shake them until they are randomly arranged in your hand, then cast them gently upon the table in front of you. Notice how the coins have landed with either ‘heads’ or ‘tails’ facing up. You need to shake the coins six times to get the result. You can shake the coins automatically and get the corresponding result online through a specific computer program now. Using the simple tools of three coins, you can seek insight from the I Ching regarding whatever question is in your heart.
+				<p></p>
+				<strong>Gudience: Please tossing the coins for six times and then getting your reading. You can click the button "toss coins" below six times and then click the "Reading" button to get your reading.</strong>
+			</p>
+            <div id="toss" class="toss-center">
+				<p style="text-align: center">Toss Coins</p>
+				<form name="frmcoins" action="#" method="post" target="_top" style="text-align: center">
+				<div class="coin-center">
+						<img src="noside.gif" name="imgcoin1" alt="coin" >
+						<img src="noside.gif" name="imgcoin2" alt="coin">
+						<img src="noside.gif" name="imgcoin3" alt="coin">
+				</div>
+				<div class="button-center">
+					<td>
+						<div class="hexline"><img id="line6" src="empty.gif"  width="400" height="80" alt=""></div>
+						<div class="hexline"><img id="line5" src="empty.gif" width="400" height="80" alt=""></div>
+						<div class="hexline"><img id="line4" src="empty.gif"  width="400" height="80" alt=""></div>
+						<div class="hexline"><img id="line3" src="empty.gif"  width="400" height="80" alt=""></div>
+						<div class="hexline"><img id="line2" src="empty.gif"  width="400" height="80" alt=""></div>
+						<div class="hexline"><img id="line1" src="empty.gif"  width="400" height="80" alt=""></div>
+					</td>
+						<button type="button" id="throwbtn" onclick = "toss()">Toss Coins</button>
+						<button type="button" id="read" onclick = "reading()">Reading</button>
+						<p></p>
+						<p style="display:inline">time</p>
+						<p id="num" style="display:inline"></p>
+				</div>
+				</form>
+		    </div>
+        </div>
+		<div id = 'readingintro' class = 'reading-intro'>
+			    <h2 style="text-align: center">IChing</h2>
+				<p style="text-align: justify; text-justify:inter-ideograph;">
+					The result you have got contains words of insight pertaining to your question. Seek to apply the words you are given to the question you asked in a sincere and introspective way.
+				</p>
+                <div id = "reading" class = "reading-center">
+                        <p>Here is your reading</p>
+							<div class="col-10">
+								<!-- <div class = "textPosition">
+
+								<p  style="display:inline">Upper:</p>
+								<p  id="upper" style="display:inline"></p>
+								<p style="display:inline">(</p>
+								<p id="upperpinyin" style="display:inline"></p>
+								<p style="display:inline">)</p>
+								<div></div>
+								<p></p>
+								<p></p>
+								<p  style="display:inline">Lower:</p>
+								<p  id="lower" style="display:inline"></p>
+								<p style="display:inline">(</p>
+								<p id="lowerpinyin" style="display:inline"></p>
+								<p style="display:inline">)</p>
+								<p></p>
+							</div> -->
+							<div class="col-9">
+								<div class="imgPosition">
+									<img name ="hexagram" src="pic/1.png" alt="">
+								</div>
+								<div class="col-8">
+									<div class = "textPosition">
+										<p  style="display:inline">index:</p>
+										<p  id="index" style="display:inline">
+										<p></p>
+										<p style="display:inline">hexagram:</p>
+										<p id="char" style="display:inline"></p>
+										<p style="display:inline">(</p>
+										<p id="pinyin" style="display:inline"></p>
+										<p style="display:inline">)</p>
+										<p></p>
+
+									</div>
+								</div>
+							</div>
+						</div>
+
+						 <!-- 25% -->
+
+                        <iframe  src = "reading.txt " scrolling="yes" frameborder="no" id="textfile" name = "textreading"
+                                        height="100%" width="100%" title="Iframe Example" margin: auto></iframe>
+					
+             </div>
+			 
+		</div>
+		<div id="myModal" class="modal">
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <p id = "text"></p>
+        </div>
+	</div>
+
+
+	<script>
+			var count = 0;
+			var s1 = ""
+			var imagesArray = ["heads.png", "tails.png"];
+			var yinyangArray = ["yin.png", "yang.png"];
+			var readingArray = ["Reading1.txt", "Reading2.txt", "Reading3.txt", "Reading4.txt", "Reading5.txt",
+								"Reading6.txt", "Reading7.txt", "Reading8.txt","Reading9.txt", "Reading10.txt", "Reading11.txt",
+								"Reading12.txt", "Reading13.txt", "Reading14.txt","Reading15.txt", "Reading16.txt", "Reading17.txt",
+								"Reading18.txt", "Reading19.txt", "Reading20.txt","Reading21.txt", "Reading22.txt", "Reading23.txt",
+								"Reading24.txt", "Reading25.txt", "Reading26.txt","Reading27.txt", "Reading28.txt", "Reading29.txt",
+								"Reading30.txt", "Reading31.txt", "Reading32.txt","Reading33.txt", "Reading34.txt", "Reading35.txt",
+								"Reading36.txt", "Reading37.txt", "Reading38.txt","Reading39.txt", "Reading40.txt", "Reading41.txt",
+								"Reading42.txt", "Reading43.txt", "Reading44.txt","Reading45.txt", "Reading46.txt", "Reading47.txt",
+								"Reading48.txt", "Reading49.txt", "Reading50.txt","Reading51.txt", "Reading52.txt", "Reading53.txt",
+								"Reading54.txt", "Reading55.txt", "Reading56.txt","Reading57.txt", "Reading58.txt", "Reading59.txt",
+								"Reading60.txt", "Reading61.txt", "Reading62.txt","Reading63.txt", "Reading64.txt"];
+			var pngArray = ["pic/1.png", "pic/2.png", "pic/3.png", "pic/4.png", "pic/5.png", "pic/6.png", "pic/7.png", "pic/8.png", "pic/9.png", "pic/10.png"
+			, "pic/11.png", "pic/12.png", "pic/13.png", "pic/14.png", "pic/15.png", "pic/16.png", "pic/17.png", "pic/18.png", "pic/19.png", "pic/20.png", "pic/21.png", "pic/22.png"
+			, "pic/23.png", "pic/24.png", "pic/25.png", "pic/26.png", "pic/27.png", "pic/28.png", "pic/29.png", "pic/30.png", "pic/31.png", "pic/32.png", "pic/33.png", "pic/34.png"
+			, "pic/35.png", "pic/36.png", "pic/37.png", "pic/38.png", "pic/39.png", "pic/40.png", "pic/41.png", "pic/42.png", "pic/43.png", "pic/44.png", "pic/45.png", "pic/46.png"
+			, "pic/47.png", "pic/48.png", "pic/49.png", "pic/50.png", "pic/51.png", "pic/52.png", "pic/53.png", "pic/54.png", "pic/55.png", "pic/56.png", "pic/57.png", "pic/58.png"
+			, "pic/59.png", "pic/60.png", "pic/61.png", "pic/62.png", "pic/63.png", "pic/64.png"];
+			document.getElementById('reading').style.display = 'none';
+			document.getElementById('readingintro').style.display = 'none';
+
+			var dict = {};
+			dict['111111']="1,乾,qián,乾(天),qián(Sky),乾(天),qián(Sky)";
+            dict['000000']='2,坤,kūn,坤(地),kūn(Earth),坤(地),kūn(Earth)';
+            dict['010001']='3,屯,zhūn,坎(水),kǎn(Water),震(雷),zhèn(Thunder)';
+            dict['100010']='4,蒙,méng,艮(山),gèn(Mountain),坎(水),kǎn(Water)';
+            dict['010111']='5,需,xū,坎(水),kǎn(Water),乾(天),qián(Sky)';
+            dict['111010']='6,讼,sòng,乾(天),qián(Sky),坎(水),kǎn(Water)';
+            dict['000010']='7,师,hī,坤(地),kūn(Earth),坎(水),kǎn(Water)';
+            dict['010000']='8,比,bǐ,坎(水),kǎn(Water),坤(地),kūn(Earth)';
+            dict['110111']='9,小畜,xiǎo xù,巽(风),xùn(Wind),乾(天),qián(Sky)';
+            dict['111011']='10,履,lǚ,乾(天),qián(Sky),巽(风),xùn(Wind)';
+            dict['000111']='11,泰,tài,坤(地),kūn(Earth),乾(天),qián(Sky)';
+            dict['111000']='12,否,pǐ,乾(天),qián(Sky),坤(地),kūn(Earth)';
+            dict['111101']='13,同人,tóng rén,乾(天),qián(Sky),离(火),lí(Fire)';
+            dict['101111']='14,大有,dà yǒu,离(火),lí(Fire),乾(天),qián(Sky)';
+            dict['000100']='15,谦,qiān,坤(地),kūn(Earth),艮(山),gèn(Mountain)';
+            dict['001000']='16,豫,yù,震(雷),zhèn(Thunder),坤(地),kūn(Earth)';
+            dict['011001']='17,随,suí,兑(泽),duì(Lake),震(雷),zhèn(Thunder)';
+            dict['100110']='18,蛊,gǔ,艮(山),gèn(Mountain),巽(风),xùn(Wind)';
+            dict['000011']='19,临,lín,坤(地),kūn(Earth),兑(泽),duì(Lake)';
+            dict['110000']='20,观,guān,巽(风),xùn(Wind),坤(地),kūn(Earth)';
+            dict['101001']='21,噬嗑,shì kē,离(火),lí(Fire),震(雷),zhèn(Thunder)';
+            dict['100101']='22,贲,bì,艮(山),gèn(Mountain),离(火),lí(Fire)';
+            dict['100000']='23,剥,bō,艮(山),gèn(Mountain),坤(地),kūn(Earth)';
+            dict['000001']='24,复,fù,坤(地),kūn(Earth),震(雷),zhèn(Thunder)';
+            dict['111001']='25,无妄,wú wàng,乾(天),qián(Sky),震(雷),zhèn(Thunder)';
+            dict['100111']='26,大畜,dà xù,艮(山),gèn(Mountain),乾(天),qián(Sky)';
+            dict['100001']='27,颐,yí,艮(山),gèn(Mountain),震(雷),zhèn(Thunder)';
+            dict['011110']='28,大过,dà guò,兑(泽),duì(Lake),巽(风),xùn(Wind)';
+            dict['010010']='29,坎,kǎn,坎(水),kǎn(Water),坎(水),kǎn(Water)';
+            dict['101101']='30,离,lí,离(火),lí(Fire),离(火),lí(Fire)';
+            dict['011100']='31,咸,xián,兑(泽),duì(Lake),艮(山),gèn(Mountain)';
+            dict['001110']='32,恒,héng,震(雷),zhèn(Thunder),巽(风),xùn(Wind)';
+            dict['111100']='33,遁,dùn,乾(天),qián(Sky),艮(山),gèn(Mountain)';
+            dict['001111']='34,大壮,dà zhuàng,震(雷),zhèn(Thunder),乾(天),qián(Sky)';
+            dict['101000']='35,晋,jìn,离(火),lí(Fire),坤(地),kūn(Earth)';
+            dict['000101']='36,明夷,míng yí,坤(地),kūn(Earth),离(火),lí(Fire)';
+            dict['110101']='37,家人,jiā rén,巽(风),xùn(Wind),离(火),lí(Fire)';
+            dict['101011']='38,睽,kuí,离(火),lí(Fire),兑(泽),duì(Lake)';
+            dict['010100']='39,蹇,jiǎn,坎(水),kǎn(Water),艮(山),gèn(Mountain)';
+            dict['001010']='40,解,jiě,震(雷),zhèn(Thunder),坎(水),kǎn(Water)';
+            dict['100011']='41,损,sǔn,艮(山),gèn(Mountain),兑(泽),duì(Lake)';
+            dict['110001']='42,益,yì,巽(风),xùn(Wind),震(雷),zhèn(Thunder)';
+            dict['011111']='43,夬,guài,兑(泽),duì(Lake),乾(天),qián(Sky)';
+            dict['111110']='44,姤,gòu,乾(天),qián(Sky),巽(风),xùn(Wind)';
+            dict['011000']='45,萃,cuì,兑(泽),duì(Lake),坤(地),kūn(Earth)';
+            dict['000110']='46,升,shēng,坤(地),kūn(Earth),巽(风),xùn(Wind)';
+            dict['011010']='47,困,kùn,兑(泽),duì(Lake),坎(水),kǎn(Water)';
+            dict['010110']='48,井,jǐng,坎(水),kǎn(Water),巽(风),xùn(Wind)';
+            dict['011101']='49,革,gé,兑(泽),duì(Lake),离(火),lí(Fire)';
+            dict['101110']='50,鼎,dǐng,离(火),lí(Fire),巽(风),xùn(Wind)';
+            dict['001001']='51,震,zhèn,震(雷),zhèn(Thunder),震(雷),zhèn(Thunder)';
+            dict['100100']='52,艮,gèn,艮(山),gèn(Mountain),艮(山),gèn(Mountain)';
+            dict['110100']='53,渐,jiàn,巽(风),xùn(Wind),艮(山),gèn(Mountain)';
+            dict['001011']='54,归妹,guī mèi,震(雷),zhèn(Thunder),兑(泽),duì(Lake)';
+            dict['001101']='55,丰,fēng,震(雷),zhèn(Thunder),离(火),lí(Fire)';
+            dict['101100']='56,旅,lǚ,离(火),lí(Fire),艮(山),gèn(Mountain)';
+            dict['110110']='57,巽,xùn,巽(风),xùn(Wind),巽(风),xùn(Wind)';
+            dict['011011']='58,兑,duì,兑(泽),duì(Lake),兑(泽),duì(Lake)';
+            dict['110010']='59,涣,huàn,巽(风),xùn(Wind),坎(水),kǎn(Water)';
+            dict['010011']='60,节,jié,坎(水),kǎn(Water),兑(泽),duì(Lake)';
+            dict['110011']='61,中孚,zhōng fú,巽(风),xùn(Wind),兑(泽),duì(Lake)';
+            dict['001100']='62,小过,xiǎo guò,震(雷),zhèn(Thunder),艮(山),gèn(Mountain)';
+            dict['010101']='63,既济,jì jì,坎(水),kǎn(Water),离(火),lí(Fire)';
+            dict['101010']='64,未济,wèi jì,离(火),lí(Fire),坎(水),kǎn(Water)';
+
+
+			function toss() {
+					count = count + 1;
+					if(count >= 7){
+							var span = document.getElementsByClassName("close")[0];
+							var modal = document.getElementById('myModal');
+							var text = document.getElementById('text');
+							text.innerHTML = "You already tossed six times, please click reading button to the next"
+							modal.style.display = 'block';
+							span.onclick = function() {
+									modal.style.display = "none";
+							}
+							window.onclick = function(event) {
+									if (event.target == modal) {
+											modal.style.display = "none";
+									}
+							}
+							button.disabled = true;
+					}
+					num = document.getElementById('num');
+
+					num.innerHTML = count; // displays the numbers
+					var num1 = Math.floor(Math.random() * 2); // 0,1
+					var num2 = Math.floor(Math.random() * 2); // 0,1
+					var num3 = Math.floor(Math.random() * 2); // 0,1
+					var sum = num1 + num2 + num3;//0 2 yin
+					document.imgcoin1.src = imagesArray[num1];
+					document.imgcoin2.src = imagesArray[num2];
+					document.imgcoin3.src = imagesArray[num3];
+					document.getElementById("line" + count).src = (sum % 2 == 0 ? yinyangArray[0]: yinyangArray[1]);
+					if(count == 1){
+						sum % 2 == 0 ? s1 = "0" : s1 = "1";
+					}
+					else{
+						sum % 2 == 0 ? s1 = "0" + s1: s1 = "1" + s1;
+					}
+			}
+
+			function print() {
+					var iframe = document.getElementById('textfile');
+					// iframe.contentWindow.print();
+					iframe.focus(); 
+					iframe.contentWindow.print();
+			}
+			
+			function closePage(){
+				window.open('', '_self', ''); window.close();
+			}
+			function reading(){
+					if(count < 6){
+							var span = document.getElementsByClassName("close")[0];
+							var modal = document.getElementById('myModal');
+							var text = document.getElementById('text');
+							text.innerHTML = "You should toss six times first then click to read"
+							modal.style.display = 'block';
+							span.onclick = function() {
+									modal.style.display = "none";
+							}
+							window.onclick = function(event) {
+									if (event.target == modal) {
+											modal.style.display = "none";
+									}
+							}
+							button.disabled = true;
+					}
+					s1=dict[s1];
+					arr = s1.split(",");
+					index = document.getElementById('index');
+					index.innerHTML = arr[0];
+					char = document.getElementById('char');
+					char.innerHTML = arr[1];
+					pinyin = document.getElementById('pinyin');
+					pinyin.innerHTML = arr[2];
+					// upper = document.getElementById('upper');
+					// upper.innerHTML = arr[3];
+					// upperpinyin = document.getElementById('upperpinyin');
+					// upperpinyin.innerHTML = arr[4];
+					// lower = document.getElementById('lower');
+					// lower.innerHTML = arr[5];
+					// lowerpinyin = document.getElementById('lowerpinyin');
+					// lowerpinyin.innerHTML = arr[6];
+					var id = parseInt(arr[0])
+					document.getElementById('textfile').src= readingArray[id-1];
+					document.getElementById('textfile').focus(); 
+					document.getElementById('textfile').contentWindow.print();
+					document.hexagram.src = pngArray[id-1];
+					document.getElementById('reading').style.display = 'block';
+					document.getElementById('toss').style.display = 'none';
+					document.getElementById('readingintro').style.display = 'block';
+					document.getElementById('tossintro').style.display = 'none';
+			}
+	</script>
+</body>
+</html>
